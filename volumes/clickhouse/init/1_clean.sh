@@ -14,7 +14,7 @@ clickhouse client -n <<-EOSQL
 
     CREATE TABLE bank.complaints (
         event_date  DateTime,
-        uerId       FixedString(11),
+        userId      FixedString(11),
         text        String
     ) ENGINE = MergeTree() PARTITION BY toYYYYMM(event_date) ORDER BY event_date;;
 
@@ -26,10 +26,10 @@ clickhouse client -n <<-EOSQL
     ) ENGINE = MergeTree() PARTITION BY toYYYYMM(event_date) ORDER BY event_date;;
 
     CREATE TABLE bank.clients (
-        userId  FixedString(11), 
-        accout  FixedString(20),
-        phone   FixedString(12), 
-        fio     String
+        userId   FixedString(11), 
+        account  FixedString(20),
+        phone    FixedString(12), 
+        fio      String
     ) ENGINE = MergeTree() ORDER BY userId;;
 
     CREATE TABLE ecosystem.mapping (
