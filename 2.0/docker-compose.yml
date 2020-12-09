@@ -1,0 +1,33 @@
+version: "3.0"
+
+networks:
+  backend:
+
+services:
+  # database
+  clickhouse:
+    image: "yandex/clickhouse-server:19.11"
+    container_name: "sql-meetup-db"
+    volumes: 
+      - "./volumes/clickhouse/db:/var/lib/clickhouse:rw"
+      - "./volumes/clickhouse/init:/docker-entrypoint-initdb.d:ro"
+      - "./volumes/clickhouse/samples:/var/samples:ro"
+    ports:
+      - "9123:8123"
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      - backend
+    restart: "always"
+
+  # developers tools
+  tabix:
+    image: "spoonest/clickhouse-tabix-web-client:stable"
+    container_name: "sql-meetup-ui"
+    ports:
+      - 80:80
+    networks:
+      - backend
+    restart: "always"
